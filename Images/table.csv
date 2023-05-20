@@ -1,0 +1,3 @@
+Column,Null?,Type
+USENAME, - ,VARCHAR2(50)
+PASSWORD, - ,NUMBER
