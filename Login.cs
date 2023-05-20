@@ -37,13 +37,7 @@ namespace Book_Store_Management_System
             timer2.Start();
             timer3.Start();
             timer1.Enabled = true;
-            button1.Enabled = false;
-            button2.Enabled = false;
-            button3.Enabled = false;
-            button8.Enabled = false;
-            button7.Enabled = false;
-            button6.Enabled = false;
-            button5.Enabled = false;
+            button1.Enabled = button2.Enabled = button3.Enabled = button5.Enabled = button6.Enabled = button7.Enabled = button8.Enabled = false;
             pictureBox2.Hide();
 
             if(File.Exists("Remember Password.txt"))
