@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Book_Store_Management_System
 {
@@ -28,7 +22,7 @@ namespace Book_Store_Management_System
             int col2 = ran.Next(0, 255);
             int col3 = ran.Next(0, 255);
 
-            label1.ForeColor = Color.FromArgb(col1,col2,col3);
+            label1.ForeColor = Color.FromArgb(col1, col2, col3);
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -40,7 +34,7 @@ namespace Book_Store_Management_System
             button1.Enabled = button2.Enabled = button3.Enabled = button5.Enabled = button6.Enabled = button7.Enabled = button8.Enabled = false;
             pictureBox2.Hide();
 
-            if(File.Exists("Remember Password.txt"))
+            if (File.Exists("Remember Password.txt"))
             {
                 using (StreamReader streamReader = new StreamReader("Remember Password.txt"))
                 {
@@ -97,7 +91,7 @@ namespace Book_Store_Management_System
 
         }
 
-        
+
 
         private void label5_Click(object sender, EventArgs e)
         {
@@ -108,16 +102,16 @@ namespace Book_Store_Management_System
         {
             SqlConnection con = new SqlConnection(cs);
             string query = "select * from Login_TB where USERNAME = @user and PASSWORD = @pass";
-            SqlCommand cmd = new SqlCommand(query,con);
+            SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@user", textBox1.Text);
             cmd.Parameters.AddWithValue("@pass", textBox2.Text);
 
             con.Open();
 
             SqlDataReader dr = cmd.ExecuteReader();
-            if(dr.HasRows == true)
+            if (dr.HasRows == true)
             {
-                MessageBox.Show("Login Successfull","Book Store Management System",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Login Successfull", "Book Store Management System", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 using (StreamWriter streamwriter = new StreamWriter("Remember Password.txt"))
                 {
@@ -126,18 +120,13 @@ namespace Book_Store_Management_System
                     streamwriter.WriteLine(textBox2.Text);
 
                 }
-                button1.Enabled = true;
-                button2.Enabled = true;
-                button3.Enabled = true;
-                button8.Enabled = true;
-                button7.Enabled = true;
-                button6.Enabled = true;
-                button5.Enabled = true;
+
+                button1.Enabled = button2.Enabled = button3.Enabled = button5.Enabled = button6.Enabled = button7.Enabled = button8.Enabled = true;
                 pictureBox2.Show();
             }
             else
             {
-                MessageBox.Show("Please Enter Valid Login Details", "Book Store Management System",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Please Enter Valid Login Details", "Book Store Management System", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             con.Close();
@@ -221,17 +210,10 @@ namespace Book_Store_Management_System
 
         private void button3_Click(object sender, EventArgs e)
         {
-            button1.Enabled = false;
-            button2.Enabled = false;
-            button3.Enabled = false;
-            button8.Enabled = false;
-            button7.Enabled = false;
-            button6.Enabled = false;
-            button5.Enabled = false;
+            button1.Enabled = button2.Enabled = button3.Enabled = button5.Enabled = button6.Enabled = button7.Enabled = button8.Enabled = false;
             pictureBox2.Hide();
             textBox1.Clear();
             textBox2.Clear();
-           
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -244,7 +226,7 @@ namespace Book_Store_Management_System
 
         private void button7_Click(object sender, EventArgs e)
         {
-            
+
             Check_Stock form = new Check_Stock();
             form.Show();
 
@@ -252,7 +234,7 @@ namespace Book_Store_Management_System
 
         private void button8_Click(object sender, EventArgs e)
         {
-           
+
             Orders_Record form = new Orders_Record();
             form.Show();
         }
@@ -265,12 +247,12 @@ namespace Book_Store_Management_System
 
         private void button5_Click(object sender, EventArgs e)
         {
-            
+
 
             SMS form = new SMS();
             form.Show();
 
-           
+
         }
     }
 }
