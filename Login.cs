@@ -15,7 +15,7 @@ namespace Book_Store_Management_System
             InitializeComponent();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)    
         {
             Random ran = new Random();
             int col1 = ran.Next(0, 255);
@@ -41,10 +41,7 @@ namespace Book_Store_Management_System
                     textBox1.Text = streamReader.ReadLine();
                     textBox2.Text = streamReader.ReadLine();
                 }
-
-
             }
-
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -56,7 +53,7 @@ namespace Book_Store_Management_System
         {
             AddBook newForm = new AddBook();
             newForm.Show();
-            this.Hide();
+            Hide();
         }
 
         private void timer2_Tick(object sender, EventArgs e)
