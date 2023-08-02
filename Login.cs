@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.ReportingServices.DataProcessing;
+using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
@@ -9,7 +11,6 @@ namespace Book_Store_Management_System
 {
     public partial class Login : Form
     {
-        string cs = ConfigurationManager.ConnectionStrings["dbcs"].ConnectionString;
         public Login()
         {
             InitializeComponent();
@@ -21,235 +22,179 @@ namespace Book_Store_Management_System
             int col1 = ran.Next(0, 255);
             int col2 = ran.Next(0, 255);
             int col3 = ran.Next(0, 255);
-
-            label1.ForeColor = Color.FromArgb(col1, col2, col3);
-        }
-
-        private void Form2_Load(object sender, EventArgs e)
-        {
-            timer1.Start();
-            timer2.Start();
-            timer3.Start();
-            timer1.Enabled = true;
-            button1.Enabled = button2.Enabled = button3.Enabled = button5.Enabled = button6.Enabled = button7.Enabled = button8.Enabled = false;
-            pictureBox2.Hide();
-
-            if (File.Exists("Remember Password.txt"))
-            {
-                using (StreamReader streamReader = new StreamReader("Remember Password.txt"))
-                {
-                    textBox1.Text = streamReader.ReadLine();
-                    textBox2.Text = streamReader.ReadLine();
-                }
-            }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            AddBook newForm = new AddBook();
-            newForm.Show();
-            Hide();
+            lblBSMS.ForeColor = Color.FromArgb(col1, col2, col3);
         }
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            scrolltxt.Location = new Point(scrolltxt.Location.X + 5, scrolltxt.Location.Y);
-            if (scrolltxt.Location.X > this.Width)
-            {
-
-                scrolltxt.Location = new Point(0 - scrolltxt.Width, scrolltxt.Location.Y);
-
-            }
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
+            scrlOwner.Location = new Point(scrlOwner.Location.X + 5, scrlOwner.Location.Y);
+            if (scrlOwner.Location.X > this.Width)
+                scrlOwner.Location = new Point(0 - scrlOwner.Width, scrlOwner.Location.Y);
         }
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-            label2.Text = DateTime.Now.ToLongTimeString();
-            label3.Text = DateTime.Now.ToLongDateString();
+            lblTime.Text = DateTime.Now.ToLongTimeString();
+            lblDate.Text = DateTime.Now.ToLongDateString();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void btnSendSMS_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void scrolltxt_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            SqlConnection con = new SqlConnection(cs);
-            string query = "select * from Login_TB where USERNAME = @user and PASSWORD = @pass";
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@user", textBox1.Text);
-            cmd.Parameters.AddWithValue("@pass", textBox2.Text);
-
-            con.Open();
-
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.HasRows == true)
-            {
-                MessageBox.Show("Login Successfull", "Book Store Management System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                using (StreamWriter streamwriter = new StreamWriter("Remember Password.txt"))
-                {
-
-                    streamwriter.WriteLine(textBox1.Text);
-                    streamwriter.WriteLine(textBox2.Text);
-
-                }
-
-                button1.Enabled = button2.Enabled = button3.Enabled = button5.Enabled = button6.Enabled = button7.Enabled = button8.Enabled = true;
-                pictureBox2.Show();
-            }
-            else
-            {
-                MessageBox.Show("Please Enter Valid Login Details", "Book Store Management System", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            con.Close();
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            bool check = checkBox1.Checked;
-
-            switch (check)
-            {
-                case true:
-                    textBox2.UseSystemPasswordChar = false;
-                    break;
-                default:
-                    textBox2.UseSystemPasswordChar = true;
-                    break;
-
-
-            }
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            clear();
-        }
-        void clear()
-        {
-
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox1.Focus();
-        }
-
-        private void button10_MouseHover(object sender, EventArgs e)
-        {
-            button10.BackColor = Color.Red;
-        }
-
-        private void button10_MouseLeave(object sender, EventArgs e)
-        {
-            button10.BackColor = Color.FloralWhite;
-        }
-
-        private void button9_MouseHover(object sender, EventArgs e)
-        {
-            button9.BackColor = Color.LawnGreen;
-        }
-
-        private void button9_MouseLeave(object sender, EventArgs e)
-        {
-            button9.BackColor = Color.FloralWhite;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-            Application.Exit();
-
-        }
-
-        private void button4_MouseHover(object sender, EventArgs e)
-        {
-            button4.BackColor = Color.Red;
-        }
-
-        private void button4_MouseLeave(object sender, EventArgs e)
-        {
-            button4.BackColor = Color.Honeydew;
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            button1.Enabled = button2.Enabled = button3.Enabled = button5.Enabled = button6.Enabled = button7.Enabled = button8.Enabled = false;
-            pictureBox2.Hide();
-            textBox1.Clear();
-            textBox2.Clear();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-
-            Add_Book form = new Add_Book();
+            SMS form = new SMS();
             form.Show();
         }
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-
-            Check_Stock form = new Check_Stock();
-            form.Show();
-
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-
-            Orders_Record form = new Orders_Record();
-            form.Show();
-        }
-
-        private void button6_Click(object sender, EventArgs e)
+        private void btnReports_Click(object sender, EventArgs e)
         {
             Show_Reports form = new Show_Reports();
             form.Show();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void btnOrdersRecord_Click(object sender, EventArgs e)
         {
-
-
-            SMS form = new SMS();
+            Orders_Record form = new Orders_Record();
             form.Show();
+        }
 
+        private void btnCheckStock_Click(object sender, EventArgs e)
+        {
+            Check_Stock form = new Check_Stock();
+            form.Show();
+        }
 
+        private void btnAddNewBook_Click(object sender, EventArgs e)
+        {
+            Close();
+            Add_Book form = new Add_Book();
+            form.Show();
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            btnAddNewCustomer.Enabled = btnAddNewBook.Enabled = btnLogOut.Enabled = btnSendSMS.Enabled = btnReports.Enabled = btnCheckStock.Enabled = btnOrdersRecord.Enabled = false;
+            pictbxBook.Hide();
+            txtUserName.Clear();
+            txtPassword.Clear();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnExit_MouseHover(object sender, EventArgs e)
+        {
+            btnExit.BackColor = Color.Red;
+        }
+
+        private void btnExit_MouseLeave(object sender, EventArgs e)
+        {
+            btnExit.BackColor = Color.Honeydew;
+        }
+
+        private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            bool check = chkShowPassword.Checked;
+            switch (check)
+            {
+                case true:
+                    txtPassword.UseSystemPasswordChar = false;
+                    break;
+                default:
+                    txtPassword.UseSystemPasswordChar = true;
+                    break;
+            }
+        }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["BSMSCS"]);
+           
+            using (SqlCommand cmd = new SqlCommand("[dbo].[uspLogin]",con))
+            {
+                con.Open();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Username", txtUserName.Text);
+                cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.HasRows == true)
+                {
+                    MessageBox.Show("Login Successfull", "Book Store Management System", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    using (StreamWriter streamwriter = new StreamWriter("Remember Password.txt"))
+                    {
+                        streamwriter.WriteLine(txtUserName.Text);
+                        streamwriter.WriteLine(txtPassword.Text);
+                    }
+
+                    btnAddNewCustomer.Enabled = btnAddNewBook.Enabled = btnLogOut.Enabled = btnSendSMS.Enabled = btnReports.Enabled = btnCheckStock.Enabled = btnOrdersRecord.Enabled = true;
+                    pictbxBook.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Please Enter Valid Login Details", "Book Store Management System", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                con.Close();
+            }
+        }
+
+        private void btnLogin_MouseHover(object sender, EventArgs e)
+        {
+            btnLogin.BackColor = Color.LawnGreen;
+        }
+
+        private void btnLogin_MouseLeave(object sender, EventArgs e)
+        {
+            btnLogin.BackColor = Color.FloralWhite;
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearControls();
+        }
+        void ClearControls()
+        {
+            txtUserName.Clear();
+            txtPassword.Clear();
+            txtUserName.Focus();
+        }
+
+        private void btnClear_MouseLeave(object sender, EventArgs e)
+        {
+            btnClear.BackColor = Color.FloralWhite;
+        }
+
+        private void btnClear_MouseHover(object sender, EventArgs e)
+        {
+            btnClear.BackColor = Color.Red;
+        }
+
+        private void btnAddNewCustomer_Click(object sender, EventArgs e)
+        {
+            NewCustomer newForm = new NewCustomer();
+            newForm.Show();
+            Hide();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            timer1.Start();
+            timer2.Start();
+            timer3.Start();
+            timer1.Enabled = true;
+            btnAddNewCustomer.Enabled = btnAddNewBook.Enabled = btnLogOut.Enabled = btnSendSMS.Enabled = btnReports.Enabled = btnCheckStock.Enabled = btnOrdersRecord.Enabled = false;
+            pictbxBook.Hide();
+
+            if (File.Exists("Remember Password.txt"))
+            {
+                using (StreamReader streamReader = new StreamReader("Remember Password.txt"))
+                {
+                    txtUserName.Text = streamReader.ReadLine();
+                    txtPassword.Text = streamReader.ReadLine();
+                }
+            }
         }
     }
 }
